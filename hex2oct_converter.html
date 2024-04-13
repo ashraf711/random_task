@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexadecimal to Octal Converter</title>
+    <!-- Importing Tailwind CSS from CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Styling for the gradient background */
+        body {
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Styling for the centered container */
+        .centered-container {
+            background-color: #f9f9f9;
+            /* Light grey background for contrast */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow for depth */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="centered-container">
+        <div class="container mx-auto px-4">
+            <h1 class="text-gray-800 text-3xl mb-4">Hexadecimal ↔ Octal Converter</h1>
+            <!-- Dropdown to select conversion type -->
+            <select id="conversionType" class="block p-2 mb-4">
+                <option value="hexToOct">Hexadecimal to Octal</option>
+                <option value="octToHex">Octal to Hexadecimal</option>
+            </select>
+            <!-- Input field for the number to be converted -->
+            <input type="text" id="inputValue" class="block p-2 mb-4" placeholder="Enter value" />
+            <!-- Button to trigger the conversion -->
+            <button id="convertBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Convert
+            </button>
+            <!-- Area to display the conversion result -->
+            <div id="result" class="mt-4 text-gray-800"></div>
+        </div>
+    </div>
+
+    <script>
+        // Function to handle the conversion logic
+        function convert() {
+            // Retrieve the conversion type and input value from the document
+            const conversionType = document.getElementById('conversionType').value;
+            const inputNumber = document.getElementById('inputValue').value;
+            let result = '';
+
+            try {
+                // Handle hexadecimal to octal conversion
+                if (conversionType === 'hexToOct') {
+                    // Validate hexadecimal input
+                    if (!/^[0-9A-Fa-f]+$/.test(inputNumber)) {
+                        throw new Error('Invalid hexadecimal input');
+                    }
+                    // Perform conversion
+                    result = parseInt(inputNumber, 16).toString(8);
+                }
+                // Handle octal to hexadecimal conversion
+                else if (conversionType === 'octToHex') {
+                    // Validate octal input
+                    if (!/^[0-7]+$/.test(inputNumber)) {
+                        throw new Error('Invalid octal input');
+                    }
+                    // Perform conversion
+                    result = parseInt(inputNumber, 8).toString(16);
+                } else {
+                    throw new Error('Invalid conversion type');
+                }
+            } catch (error) {
+                // Display error message if an exception occurs
+                result = error.message;
+            }
+
+            // Display the conversion result
+            document.getElementById('result').textContent = `Result: ${result}`;
+        }
+
+        // Attach the convert function to the click event of the convert button
+        document.getElementById('convertBtn').addEventListener('click', convert);
+    </script>
+</body>
+
+</html>

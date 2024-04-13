@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the hangman game */
+        .hangman-figure-part {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col items-center justify-center h-screen">
+    <!-- Game Title -->
+    <div class="text-3xl font-bold mb-6">
+        Hangman Game
+    </div>
+
+    <!-- Hangman Figure Parts Display -->
+    <div id="figure" class="flex mb-4">
+        <!-- Hangman figure parts will be displayed here -->
+        <div id="figure-part-0" class="hangman-figure-part">🎩</div>
+        <div id="figure-part-1" class="hangman-figure-part">😕</div>
+        <div id="figure-part-2" class="hangman-figure-part">👕</div>
+        <div id="figure-part-3" class="hangman-figure-part">👖</div>
+        <div id="figure-part-4" class="hangman-figure-part">👞</div>
+        <div id="figure-part-5" class="hangman-figure-part">🩳</div>
+    </div>
+
+    <!-- Word Display -->
+    <div id="word-display" class="text-4xl font-bold mb-4">
+        <!-- The word being guessed will be displayed here -->
+    </div>
+
+    <!-- Incorrect Guesses Counter -->
+    <div id="guesses" class="text-lg font-semibold mb-4">
+        Incorrect Guesses: <span id="incorrect-guesses">0</span> / 6
+    </div>
+
+    <!-- Input Field and Guess Button -->
+    <div class="flex items-center mb-4"> <!-- Container div for alignment -->
+        <input type="text" id="guess-input"
+            class="p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
+            placeholder="Guess a letter" maxlength="1">
+        <button id="guess-button" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded">Guess</button>
+    </div>
+
+    <!-- Game Status Message -->
+    <div id="game-status" class="mt-4 text-lg font-semibold">
+        <!-- Game status messages will be displayed here -->
+    </div>
+
+    <script>
+        // List of words to choose from
+        const words = ["python", "hangman", "programming", "developer", "flask", "jupyter"];
+
+        // Initialize game variables
+        let chosenWord = "";
+        let guessedWord = [];
+        let incorrectGuesses = 0;
+
+        // Select a random word from the list
+        function selectRandomWord() {
+            return words[Math.floor(Math.random() * words.length)];
+        }
+
+        // Initialize the game
+        function initializeGame() {
+            chosenWord = selectRandomWord().toLowerCase();
+            guessedWord = new Array(chosenWord.length).fill("_");
+            incorrectGuesses = 0;
+
+            // Reset hangman figure display
+            for (let i = 0; i <= 5; i++) {
+                document.getElementById(`figure-part-${i}`).style.display = "none";
+            }
+
+            // Update word display
+            updateWordDisplay();
+            document.getElementById("incorrect-guesses").textContent = incorrectGuesses;
+            document.getElementById("game-status").textContent = "";
+        }
+
+        // Update the word display with guessed letters
+        function updateWordDisplay() {
+            document.getElementById("word-display").textContent = guessedWord.join(" ");
+        }
+
+        // Check if the game is won
+        function checkWin() {
+            return guessedWord.join("") === chosenWord;
+        }
+
+        // Check if the game is lost
+        function checkLoss() {
+            return incorrectGuesses >= 6;
+        }
+
+        // Handle guess button click
+        document.getElementById("guess-button").addEventListener("click", () => {
+            const guessInput = document.getElementById("guess-input");
+            const guess = guessInput.value.toLowerCase();
+            guessInput.value = "";
+
+            if (guess.length === 1 && /[a-z]/.test(guess)) {
+                if (chosenWord.includes(guess)) {
+                    for (let i = 0; i < chosenWord.length; i++) {
+                        if (chosenWord[i] === guess) {
+                            guessedWord[i] = guess;
+                        }
+                    }
+
+                    updateWordDisplay();
+
+                    if (checkWin()) {
+                        document.getElementById("game-status").textContent = "Congratulations! You won!";
+                    }
+                } else {
+                    incorrectGuesses++;
+                    document.getElementById(`figure-part-${incorrectGuesses - 1}`).style.display = "block";
+                    document.getElementById("incorrect-guesses").textContent = incorrectGuesses;
+
+                    if (checkLoss()) {
+                        document.getElementById("game-status").textContent = "Game over! You lost. The word was: " + chosenWord;
+                    }
+                }
+            }
+        });
+
+        // Start the game
+        initializeGame();
+    </script>
+</body>
+
+</html>

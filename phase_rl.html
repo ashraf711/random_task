@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RL Circuit Phase Angle Calculator</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Add custom styles here if needed */
+        body {
+            background: linear-gradient(to right, #4e54c8, #8f94fb); /* Gradient background */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <!-- Container for the calculator -->
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-semibold mb-4">RL Circuit Phase Angle Calculator</h1>
+
+        <!-- Resistance input field -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="resistance">Resistance (Ohm):</label>
+            <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="resistance" type="number" placeholder="Enter resistance">
+        </div>
+
+        <!-- Frequency input field -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="frequency">AC Signal Frequency (Hz):</label>
+            <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="frequency" type="number" placeholder="Enter frequency">
+        </div>
+
+        <!-- Inductance input field -->
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="inductance">Inductance (H):</label>
+            <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="inductance" type="number" placeholder="Enter inductance">
+        </div>
+
+        <!-- Calculate button -->
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="calculate">Calculate Phase Angle</button>
+
+        <!-- Result display area -->
+        <div class="mt-4" id="result"></div>
+    </div>
+
+    <script>
+        // JavaScript code to handle input validation and calculation
+        document.getElementById('calculate').addEventListener('click', function() {
+            // Retrieve input values
+            const resistance = parseFloat(document.getElementById('resistance').value);
+            const frequency = parseFloat(document.getElementById('frequency').value);
+            const inductance = parseFloat(document.getElementById('inductance').value);
+
+            // Check if inputs are valid numbers
+            if (isNaN(resistance) || isNaN(frequency) || isNaN(inductance)) {
+                document.getElementById('result').innerText = 'Please enter valid numeric values for all inputs.';
+                return;
+            }
+
+            // Calculate phase angle and display the result
+            const phaseAngle = Math.atan(inductance * 2 * Math.PI * frequency / resistance);
+            document.getElementById('result').innerText = `Phase Angle: ${phaseAngle.toFixed(4)} radians`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat or Dog Age Calculator</title>
+    <!-- TailwindCSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body class="bg-gradient-to-r from-green-400 to-blue-500 min-h-screen flex items-center justify-center">
+    <div id="app" class="p-10 bg-white rounded-lg shadow-xl">
+        <h1 class="text-3xl font-bold text-purple-600 mb-5">Pet Age in Human Years Calculator</h1>
+
+        <!-- Form for input -->
+        <div>
+            <label class="block text-lg mb-2 text-gray-700">Pet's Age (in years):</label>
+            <input v-model.number="petAge" type="number" class="border-2 border-purple-300 p-2 rounded w-full" placeholder="Enter pet's age">
+
+            <label class="block mt-4 mb-2 text-lg text-gray-700">Pet Type:</label>
+            <select v-model="petType" class="border-2 border-purple-300 p-2 rounded w-full">
+                <option value="" disabled selected>Select Pet Type</option>
+                <option value="cat">Cat</option>
+                <option value="dog">Dog</option>
+            </select>
+        </div>
+
+        <!-- Display result -->
+        <div class="mt-6">
+            <p v-if="humanAge !== null" class="text-green-700 font-semibold">Your {{ petType }} is approximately {{ humanAge }} years old in human years.</p>
+            <img v-if="petType === 'cat'" src="cat.png" alt="Cat Image" class="max-w-xs max-h-40">
+            <img v-if="petType === 'dog'" src="dog.png" alt="Dog Image" class="max-w-xs max-h-40">
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                petAge: null,
+                petType: null, // Start with a null value
+                humanAge: null
+            },
+            watch: {
+                petAge: function(newAge, oldAge) {
+                    this.calculateHumanAge();
+                },
+                petType: function(newType, oldType) {
+                    this.calculateHumanAge();
+                }
+            },
+            methods: {
+                calculateHumanAge() {
+                    if(this.petAge !== null && this.petType !== null) {
+                        if(this.petType === 'cat') {
+                            this.humanAge = this.petAge * 7; // Example conversion rate
+                        } else if(this.petType === 'dog') {
+                            this.humanAge = this.petAge * 7; // Example conversion rate
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>

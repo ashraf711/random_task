@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 p-8">
+    <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+        <h1 class="text-2xl font-semibold mb-4">Binary Calculator</h1>
+
+        <!-- Input fields -->
+        <div class="mb-4">
+            <label for="num1" class="block text-sm font-medium text-gray-600">Operand 1</label>
+            <input type="text" id="num1" class="mt-1 p-2 w-full border rounded-md" placeholder="Enter binary number">
+        </div>
+
+        <div class="mb-4">
+            <label for="num2" class="block text-sm font-medium text-gray-600">Operand 2</label>
+            <input type="text" id="num2" class="mt-1 p-2 w-full border rounded-md" placeholder="Enter binary number">
+        </div>
+
+        <!-- Operation selection -->
+        <div class="mb-4">
+            <label for="operation" class="block text-sm font-medium text-gray-600">Operation</label>
+            <select id="operation" class="mt-1 p-2 w-full border rounded-md">
+                <option value="add">Addition</option>
+                <option value="subtract">Subtraction</option>
+                <option value="multiply">Multiplication</option>
+                <option value="divide">Division</option>
+            </select>
+        </div>
+
+        <!-- Result display -->
+        <div class="mb-4">
+            <label for="result" class="block text-sm font-medium text-gray-600">Result</label>
+            <input type="text" id="result" class="mt-1 p-2 w-full border rounded-md" readonly>
+        </div>
+
+        <!-- Calculate button -->
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-md" onclick="calculate()">Calculate</button>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get input values
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+            const operation = document.getElementById('operation').value;
+
+            // Validate input
+            if (!/^[01]+$/.test(num1) || !/^[01]+$/.test(num2)) {
+                alert('Please enter valid binary numbers (0 or 1 only).');
+                return;
+            }
+
+            // Perform calculation based on selected operation
+            let result;
+            switch (operation) {
+                case 'add':
+                    result = (parseInt(num1, 2) + parseInt(num2, 2)).toString(2);
+                    break;
+                case 'subtract':
+                    result = (parseInt(num1, 2) - parseInt(num2, 2)).toString(2);
+                    break;
+                case 'multiply':
+                    result = (parseInt(num1, 2) * parseInt(num2, 2)).toString(2);
+                    break;
+                case 'divide':
+                    result = (parseInt(num1, 2) / parseInt(num2, 2)).toString(2);
+                    break;
+                default:
+                    alert('Invalid operation selected.');
+                    return;
+            }
+
+            // Display the result
+            document.getElementById('result').value = result;
+        }
+    </script>
+</body>
+
+</html>

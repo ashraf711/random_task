@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexadecimal to Octal Converter</title>
+    <style>
+        /* CSS styles for the page */
+        body {
+            /* Background gradient */
+            background: linear-gradient(to right, #151E3D, #48AAAD);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            /* Styling for the main container */
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        select,
+        input,
+        button {
+            /* Styles for dropdown, input, and button */
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            /* Button style */
+            background-color: #1520A6;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #result {
+            /* Style for the result */
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HTML Body Section -->
+    <div class="container">
+        <h1>Hexadecimal <=> Octal Converter</h1>
+        <select id="conversionType">
+            <!-- Dropdown for selecting conversion type -->
+            <option value="hexToOctal">Hexadecimal to Octal</option>
+            <option value="octalToHex">Octal to Hexadecimal</option>
+        </select>
+        <input type="text" id="inputNumber" placeholder="Enter a number">
+        <button onclick="convert()">Convert</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        // Function to perform the conversion when the "Convert" button is clicked
+        function convert() {
+            // Get the selected conversion type from the dropdown
+            const conversionType = document.getElementById('conversionType').value;
+            // Get the user input from the input field
+            const inputNumber = document.getElementById('inputNumber').value;
+            // Initialize the result variable
+            let result = '';
+
+            try {
+                // Check the selected conversion type
+                if (conversionType === 'hexToOctal') {
+                    // Validate the input as a hexadecimal number
+                    if (!/^[0-9A-Fa-f]+$/.test(inputNumber)) {
+                        throw new Error('Invalid hexadecimal input');
+                    }
+                    // Convert hexadecimal to octal
+                    result = parseInt(inputNumber, 16).toString(8);
+                } else if (conversionType === 'octalToHex') {
+                    // Validate the input as an octal number
+                    if (!/^[0-7]+$/.test(inputNumber)) {
+                        throw new Error('Invalid octal input');
+                    }
+                    // Convert octal to hexadecimal
+                    result = parseInt(inputNumber, 8).toString(16);
+                } else {
+                    // Handle an invalid conversion type
+                    throw new Error('Invalid conversion type');
+                }
+            } catch (error) {
+                // Handle errors and set the result to the error message
+                result = error.message;
+            }
+
+            // Display the result or error message in the result paragraph
+            document.getElementById('result').textContent = result;
+        }
+    </script>
+
+</body>
+
+</html>

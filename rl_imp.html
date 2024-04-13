@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Title of the webpage -->
+    <title>RL Circuit Impedance Calculator</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Vue.js framework -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        /* Styling for the body - sets background gradient and centers content */
+        body {
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Custom container class to control the width of the main content */
+        .custom-container {
+            max-width: 500px;
+        }
+
+        /* Margin for the card component */
+        .card {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Vue app root element -->
+    <div id="app" class="container custom-container">
+        <!-- Card component for the form -->
+        <div class="card">
+            <div class="card-body">
+                <!-- Title of the calculator -->
+                <h2 class="card-title">RL Circuit Impedance Calculator</h2>
+                <!-- Form for input fields and submit button -->
+                <form @submit.prevent="calculateImpedance">
+                    <!-- Input field for resistance -->
+                    <div class="form-group">
+                        <label for="resistance">Resistance (Ohms)</label>
+                        <input type="number" class="form-control" id="resistance" v-model.number="resistance" min="0"
+                            step="0.01" required>
+                    </div>
+                    <!-- Input field for frequency -->
+                    <div class="form-group">
+                        <label for="frequency">AC Signal Frequency (Hz)</label>
+                        <input type="number" class="form-control" id="frequency" v-model.number="frequency" min="0"
+                            step="0.01" required>
+                    </div>
+                    <!-- Input field for inductance -->
+                    <div class="form-group">
+                        <label for="inductance">Inductance (Henry)</label>
+                        <input type="number" class="form-control" id="inductance" v-model.number="inductance" min="0"
+                            step="any" required>
+                    </div>
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary">Calculate</button>
+                </form>
+            </div>
+        </div>
+        <!-- Display area for impedance calculation result -->
+        <div v-if="impedance !== null" class="card mt-4">
+            <div class="card-body">
+                <h3 class="card-title">Impedance: {{ impedance.toFixed(2) }} Ohms</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Vue instance creation
+        new Vue({
+            el: '#app', // Element to mount Vue app
+            data: {
+                // Reactive data properties for resistance, frequency, inductance, and impedance
+                resistance: 0,
+                frequency: 0,
+                inductance: 0,
+                impedance: null
+            },
+            methods: {
+                // Method to calculate impedance
+                calculateImpedance: function () {
+                    // Validate input values
+                    if (this.resistance < 0 || this.frequency < 0 || this.inductance < 0) {
+                        alert('Invalid input: All values must be non-negative.');
+                        return;
+                    }
+                    // Calculate reactance and impedance
+                    const reactance = 2 * Math.PI * this.frequency * this.inductance;
+                    this.impedance = Math.sqrt(Math.pow(this.resistance, 2) + Math.pow(reactance, 2));
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

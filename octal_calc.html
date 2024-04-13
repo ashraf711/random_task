@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Octal Number Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md">
+        <h1 class="text-xl font-bold mb-4">Octal Calculator</h1>
+        <div id="calculator" class="space-y-2">
+            <!-- Input fields -->
+            <input type="text" id="number1" placeholder="Enter first octal number" class="w-full p-2 border rounded">
+            <input type="text" id="number2" placeholder="Enter second octal number" class="w-full p-2 border rounded">
+
+            <!-- Buttons for operations -->
+            <div class="flex space-x-2">
+                <button onclick="performOperation('add')" class="flex-1 bg-blue-500 text-white p-2 rounded">Add</button>
+                <button onclick="performOperation('subtract')"
+                    class="flex-1 bg-green-500 text-white p-2 rounded">Subtract</button>
+                <button onclick="performOperation('multiply')"
+                    class="flex-1 bg-red-500 text-white p-2 rounded">Multiply</button>
+                <button onclick="performOperation('divide')"
+                    class="flex-1 bg-yellow-500 text-white p-2 rounded">Divide</button>
+            </div>
+
+            <!-- Display result -->
+            <div id="result" class="p-2 border rounded text-center">Result will be shown here</div>
+        </div>
+    </div>
+
+    <script>
+        function performOperation(operation) {
+            let num1 = parseInt(document.getElementById('number1').value, 8);
+            let num2 = parseInt(document.getElementById('number2').value, 8);
+            let result;
+
+            switch (operation) {
+                case 'add':
+                    result = num1 + num2;
+                    break;
+                case 'subtract':
+                    result = num1 - num2;
+                    break;
+                case 'multiply':
+                    result = num1 * num2;
+                    break;
+                case 'divide':
+                    result = num1 / num2;
+                    break;
+                default:
+                    result = "Invalid operation";
+            }
+
+            // Displaying the result in octal format
+            document.getElementById('result').innerText = 'Result: ' + result.toString(8);
+        }
+    </script>
+</body>
+
+</html>

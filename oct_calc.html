@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta tags for character set and viewport settings -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the HTML document -->
+    <title>Octal Calculator</title>
+    <!-- Styling using CSS -->
+    <style>
+        /* CSS for styling the calculator */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d3d3d3;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="button"] {
+            width: 95%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="button"] {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Calculator UI in a container -->
+    <div class="container">
+        <!-- Heading for the calculator -->
+        <h1>Octal Calculator</h1>
+        <!-- Input fields for octal numbers and buttons for operations -->
+        <input type="text" id="input1" placeholder="Enter Octal Number 1">
+        <input type="text" id="input2" placeholder="Enter Octal Number 2">
+        <input type="button" value="Multiply" onclick="multiplyOctal()">
+        <input type="button" value="Divide" onclick="divideOctal()">
+        <!-- Result display field -->
+        <input type="text" id="result" placeholder="Result" readonly>
+    </div>
+
+    <!-- JavaScript for octal arithmetic operations -->
+    <script>
+        // JavaScript functions for octal arithmetic
+        function multiplyOctal() {
+            // Get values from input fields
+            const input1 = document.getElementById("input1").value;
+            const input2 = document.getElementById("input2").value;
+
+            // Check if inputs are valid octal numbers
+            if (!isValidOctal(input1) || !isValidOctal(input2)) {
+                alert("Invalid octal input(s). Please enter valid octal numbers.");
+                return;
+            }
+
+            // Perform multiplication and display result in octal format
+            const result = (parseInt(input1, 8) * parseInt(input2, 8)).toString(8);
+            document.getElementById("result").value = result;
+        }
+
+        function divideOctal() {
+            // Get values from input fields
+            const input1 = document.getElementById("input1").value;
+            const input2 = document.getElementById("input2").value;
+
+            // Check if inputs are valid octal numbers
+            if (!isValidOctal(input1) || !isValidOctal(input2)) {
+                alert("Invalid octal input(s). Please enter valid octal numbers.");
+                return;
+            }
+
+            // Perform division and display result in octal format
+            const result = (parseInt(input1, 8) / parseInt(input2, 8)).toString(8);
+            document.getElementById("result").value = result;
+        }
+
+        function isValidOctal(input) {
+            // Check if input is a valid octal number using regular expression
+            return /^[0-7]+$/.test(input);
+        }
+    </script>
+</body>
+
+</html>

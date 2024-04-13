@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Operations</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-8">
+
+    <h1 class="text-4xl font-bold mb-4 text-center">Matrix Operations</h1>
+
+    <div class="mb-4">
+        <label for="numMatrices" class="block mb-2">Number of Matrices:</label>
+        <input type="number" id="numMatrices" value="2" min="1" max="10" class="border rounded w-full p-2" oninput="addMatrixInputs()">
+    </div>
+
+    <div id="matrixInputs"></div>
+
+    <div class="mb-4">
+        <button onclick="performOperation('add')" class="bg-green-500 text-white p-2 rounded mr-2">Add</button>
+        <button onclick="performOperation('subtract')" class="bg-yellow-500 text-white p-2 rounded mr-2">Subtract</button>
+        <button onclick="performOperation('multiply')" class="bg-blue-500 text-white p-2 rounded mr-2">Multiply</button>
+    </div>
+
+    <div id="result" class="text-center"></div>
+
+    <script>
+        function addMatrixInputs() {
+            const numMatrices = document.getElementById('numMatrices').value;
+            const matrixInputs = document.getElementById('matrixInputs');
+            matrixInputs.innerHTML = '';
+            for (let i = 1; i <= numMatrices; i++) {
+                matrixInputs.innerHTML += `<div class="mb-4">
+                    <label for="matrix${i}" class="block mb-2">Matrix ${i}:</label>
+                    <textarea id="matrix${i}" class="border rounded w-full p-2" rows="4"></textarea>
+                </div>`;
+            }
+        }
+
+        function performOperation(operation) {
+            const numMatrices = document.getElementById('numMatrices').value;
+            const matrices = [];
+            for (let i = 1; i <= numMatrices; i++) {
+                const matrixInput = document.getElementById(`matrix${i}`).value.trim();
+                const matrix = matrixInput.split('\n').map(row => row.split(' ').map(Number));
+                matrices.push(matrix);
+            }
+
+            let result;
+            switch (operation) {
+                case 'add':
+                    result = addMatrices(matrices);
+                    break;
+                case 'subtract':
+                    result = subtractMatrices(matrices);
+                    break;
+                case 'multiply':
+                    result = multiplyMatrices(matrices);
+                    break;
+            }
+
+            document.getElementById('result').innerText = 'Result:' + result.map(row => row.join(' ')).join('\n');
+        }
+
+        function addMatrices(matrices) {
+            return matrices.reduce((acc, matrix) => acc.map((row, i) => row.map((val, j) => val + matrix[i][j])));
+        }
+
+        function subtractMatrices(matrices) {
+            return matrices.reduce((acc, matrix) => acc.map((row, i) => row.map((val, j) => val - matrix[i][j])));
+        }
+
+        function multiplyMatrices(matrices) {
+            return matrices.reduce((acc, matrix) => {
+                return acc.map(row => {
+                    return matrix[0].map((_, j) => {
+                        return row.reduce((sum, val, i) => sum + val * matrix[i][j], 0);
+                    });
+                });
+            });
+        }
+
+        addMatrixInputs(); // Initialize the inputs
+    </script>
+</body>
+</html>

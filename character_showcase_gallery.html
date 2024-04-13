@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Import a custom font from Google Fonts */
+        @import url("https://fonts.googleapis.com/css2?family=Figtree&display=swap");
+
+        /* Reset default margin, padding, and box-sizing */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Figtree", sans-serif;
+            /* Apply the custom font to all elements */
+        }
+
+        /* Style the body element */
+        body {
+            display: grid;
+            place-content: center;
+            min-height: 100vh;
+            background: #000;
+            /* Set a black background color */
+        }
+
+        /* Create a container for the gallery */
+        .container {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 1em;
+            width: 800px;
+            height: 500px;
+            transition: all 400ms;
+            /* Apply a smooth transition effect on hover */
+        }
+
+        /* Apply grayscale and opacity filters to all .box elements inside .container on hover */
+        .container:hover .box {
+            filter: grayscale(100%) opacity(24%);
+        }
+
+        /* Style each individual image box */
+        .box {
+            position: relative;
+            background: var(--img) center center;
+            background-size: cover;
+            transition: all 400ms;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Remove grayscale and opacity filters on individual .box element hover */
+        .container .box:hover {
+            filter: grayscale(0%) opacity(100%);
+        }
+
+        /* Adjust the layout of the container columns when specific .box elements are hovered */
+        .container:has(.box-1:hover) {
+            grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+        }
+
+        .container:has(.box-2:hover) {
+            grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+        }
+
+        .container:has(.box-3:hover) {
+            grid-template-columns: 1fr 1fr 3fr 1fr 1fr;
+        }
+
+        .container:has(.box-4:hover) {
+            grid-template-columns: 1fr 1fr 1fr 3fr 1fr;
+        }
+
+        .container:has(.box-5:hover) {
+            grid-template-columns: 1fr 1fr 1fr 1fr 3fr;
+        }
+
+        /* Add a slight vertical translation to odd and even .box elements for a staggered appearance */
+        .box:nth-child(odd) {
+            transform: translateY(-16px);
+        }
+
+        /* Apply a slight vertical translation to even-numbered .box elements */
+        .box:nth-child(even) {
+            transform: translateY(16px);
+        }
+
+        /* Style for the content that appears after hovering over a .box element */
+        .box::after {
+            content: attr(data-text);
+            position: absolute;
+            bottom: 20px;
+            background: #000;
+            color: #fff;
+            padding: 10px 10px 10px 14px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            transform: translateY(60px);
+            opacity: 0;
+            transition: all 400ms;
+        }
+
+        /* Style for the content that appears after hovering over a .box element */
+        .box:hover::after {
+            transform: translateY(0);
+            opacity: 1;
+            transition-delay: 400ms;
+        }
+    </style>
+
+    <title>AI Anime Characters</title>
+</head>
+
+<body>
+    <!-- Container div to hold all box elements -->
+    <div class="container">
+        <!-- Box 1 with a background image from a specified URL and a data attribute for text "Renji" -->
+        <div class="box box-1" style="--img: url(https://i.postimg.cc/sgBkfbtx/img-1.jpg);" data-text="Renji"></div>
+
+        <!-- Box 2 with a different background image and a data attribute for text "Sora" -->
+        <div class="box box-2" style="--img: url(https://i.postimg.cc/3RZ6bhDS/img-2.jpg);" data-text="Sora"></div>
+
+        <!-- Box 3 with its own background image and a data attribute for text "Kaito" -->
+        <div class="box box-3" style="--img: url(https://i.postimg.cc/DZhHg0m4/img-3.jpg);" data-text="Kaito"></div>
+
+        <!-- Box 4 with a unique background image and a data attribute for text "Tsuki" -->
+        <div class="box box-4" style="--img: url(https://i.postimg.cc/KjqWx5ft/img-4.jpg);" data-text="Tsuki"></div>
+
+        <!-- Box 5 with another background image and a data attribute for text "Mitsui" -->
+        <div class="box box-5" style="--img: url(https://i.postimg.cc/nrcWyW4H/img-5.jpg);" data-text="Mitsui"></div>
+    </div>
+</body>
+
+</html>

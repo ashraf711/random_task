@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Define document metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Complement Calculator</title>
+
+    <!-- Include external CSS and JavaScript libraries (Tailwind CSS and Vue.js) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+
+<body class="bg-gray-100"
+    style="background-image: url('math.jpg'); background-size: cover; background-position: center;">
+    <!-- Define the main content of the web page -->
+    <div id="app" class="container mx-auto mt-10 p-6 bg-white shadow-lg">
+        <!-- Display the calculator title -->
+        <h1 class="text-xl font-semibold mb-4">Binary Complement Calculator</h1>
+        <div class="mb-4">
+            <!-- Input field to enter a binary number -->
+            <label for="binaryNumber" class="block text-gray-700 text-sm font-bold mb-2">Enter a Binary Number:</label>
+            <input v-model="binaryNumber" type="text" id="binaryNumber"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+            <!-- Button to trigger the complement calculation -->
+            <button @click="calculateComplements"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Calculate</button>
+        </div>
+        <!-- Error message for invalid binary input -->
+        <div v-if="invalidBinary">
+            <p class="text-red-500">Invalid binary input. Please enter a binary number containing only 0s and 1s.</p>
+        </div>
+        <!-- Display the 1's complement result -->
+        <div v-if="onesComplement">
+            <p class="text-gray-700">1's Complement: <strong>{{ onesComplement }}</strong></p>
+        </div>
+        <!-- Display the 2's complement result -->
+        <div v-if="twosComplement">
+            <p class="text-gray-700">2's Complement: <strong>{{ twosComplement }}</strong></p>
+        </div>
+    </div>
+
+    <!-- Define the Vue.js script -->
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                binaryNumber: '', // Store the input binary number
+                onesComplement: '', // Store the 1's complement result
+                twosComplement: '', // Store the 2's complement result
+                invalidBinary: false // Flag to track invalid binary input
+            },
+            methods: {
+                calculateComplements() {
+                    // Reset the error flag
+                    this.invalidBinary = false;
+
+                    // Check if the input is a valid binary number
+                    if (/^[01]+$/.test(this.binaryNumber)) {
+                        // Calculate the 1's complement of the binary number
+                        this.onesComplement = this.binaryNumber.split('').map(bit => bit === '1' ? '0' : '1').join('');
+
+                        // Calculate the 2's complement by adding 1 to the 1's complement
+                        this.twosComplement = this.addBinary(this.onesComplement, '1');
+                    } else {
+                        // Set the error flag if input is invalid
+                        this.invalidBinary = true;
+
+                        // Reset complement results
+                        this.onesComplement = '';
+                        this.twosComplement = '';
+                    }
+                },
+                addBinary(a, b) {
+                    // Helper function to add two binary numbers
+                    let result = '';
+                    let carry = 0;
+
+                    // Iterate through the binary digits from right to left
+                    for (let i = a.length - 1; i >= 0; i--) {
+                        let sum = parseInt(a[i]) + parseInt(b[i] || '0') + carry;
+                        result = (sum % 2).toString() + result;
+                        carry = sum > 1 ? 1 : 0;
+                    }
+
+                    // If there is a carry after addition, prepend '1' to the result
+                    return carry ? '1' + result : result;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

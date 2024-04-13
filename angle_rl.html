@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RL Circuit Phase Angle Calculator</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Vue.js Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <style>
+        /* Styling for the gradient background and card */
+        body {
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+        }
+
+        .card {
+            margin-top: 50px;
+            background: rgba(195, 195, 195, 0.8);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <!-- Card layout for the calculator form -->
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Calculator Title -->
+                        <h2 class="card-title">RL Circuit Phase Angle Calculator</h2>
+                        <!-- Form for input fields and calculation -->
+                        <form @submit.prevent="calculatePhaseAngle">
+                            <!-- Resistance Input -->
+                            <div class="form-group">
+                                <label for="resistance">Resistance (Ohm):</label>
+                                <input type="number" class="form-control" id="resistance" v-model.number="resistance">
+                            </div>
+                            <!-- Frequency Input -->
+                            <div class="form-group">
+                                <label for="frequency">AC Signal Frequency (Hz):</label>
+                                <input type="number" class="form-control" id="frequency" v-model.number="frequency">
+                            </div>
+                            <!-- Inductance Input -->
+                            <div class="form-group">
+                                <label for="inductance">Inductance (H):</label>
+                                <input type="number" class="form-control" id="inductance" v-model.number="inductance">
+                            </div>
+                            <!-- Calculate Button -->
+                            <button type="submit" class="btn btn-primary">Calculate</button>
+                        </form>
+                        <!-- Result Display -->
+                        <p v-if="result !== null" class="mt-3">Phase Angle: {{ result }} radians</p>
+                        <!-- Error Message Display -->
+                        <p v-if="error" class="text-danger">{{ error }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue.js Script -->
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                resistance: null,
+                frequency: null,
+                inductance: null,
+                result: null,
+                error: null
+            },
+            methods: {
+                calculatePhaseAngle() {
+                    this.error = null; // Reset error message
+                    // Validate input before calculation
+                    if (this.validateInput()) {
+                        const XL = 2 * Math.PI * this.frequency * this.inductance; // Calculate Inductive reactance
+                        const phaseAngle = Math.atan(XL / this.resistance); // Calculate phase angle in degrees
+                        this.result = phaseAngle.toFixed(4); // Update result with formatted value
+                    }
+                },
+                validateInput() {
+                    // Check for valid inputs
+                    if (this.resistance <= 0 || this.frequency <= 0 || this.inductance <= 0) {
+                        this.error = "Please enter valid inputs/ fill the input fields";
+                        return false;
+                    }
+                    return true;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RL Circuit Impedance Calculator</title>
+    <style>
+        /* Global styles for the entire page */
+        body {
+            background: linear-gradient(to right, #C3B1E1, #B65FCF);
+            font-family: Arial, sans-serif;
+            color: #000;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Styles for the main heading */
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        /* Styles for the form container */
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(192, 192, 192, 1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Styles for form elements (input and buttons) */
+        input,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Styles for buttons */
+        button {
+            background-color: #82EEFD;
+            color: #000;
+            cursor: pointer;
+        }
+
+        /* Hover styles for buttons */
+        button:hover {
+            background-color: #48AAAD;
+        }
+
+        /* Styles for the result element */
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            /* Make the text bold */
+            font-size: 20px;
+            /* Increase the font size */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>RL Circuit Impedance Calculator</h1>
+
+    <form id="impedanceForm">
+        <!-- Labels and input fields for resistance, frequency, and inductance -->
+        <label for="resistance">Resistance (ohm):</label>
+        <input type="number" id="resistance" required>
+
+        <label for="frequency">Frequency (Hz):</label>
+        <input type="number" id="frequency" required>
+
+        <label for="inductance">Inductance (H):</label>
+        <input type="number" id="inductance" required>
+
+        <!-- Calculate Impedance and Reset buttons -->
+        <button type="button" onclick="calculateImpedance()">Calculate Impedance</button>
+        <button type="button" onclick="resetForm()">Reset</button>
+        <!-- Result field for displaying the calculated impedance -->
+        <div id="result"></div>
+    </form>
+
+    <script>
+        function calculateImpedance() {
+            // Get input values
+            var resistance = parseFloat(document.getElementById('resistance').value);
+            var frequency = parseFloat(document.getElementById('frequency').value);
+            var inductance = parseFloat(document.getElementById('inductance').value);
+
+            // Check for valid inputs
+            if (isNaN(resistance) || isNaN(frequency) || isNaN(inductance)) {
+                alert('Please enter valid numeric values for all inputs.');
+                return;
+            }
+
+            // Calculate impedance
+            var impedance = Math.sqrt(Math.pow(resistance, 2) + Math.pow((2 * Math.PI * frequency * inductance), 2));
+
+            // Display the result below the form
+            var resultElement = document.getElementById('result');
+            resultElement.innerHTML = 'Impedance of the RC circuit: ' + impedance.toFixed(2) + ' ohm';
+        }
+
+        function resetForm() {
+            // Reset all input values
+            document.getElementById('resistance').value = '';
+            document.getElementById('frequency').value = '';
+            document.getElementById('inductance').value = '';
+
+            // Clear the result
+            var resultElement = document.getElementById('result');
+            resultElement.innerHTML = '';
+        }
+    </script>
+</body>
+
+</html>

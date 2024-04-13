@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Ensure proper rendering and touch zooming on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+
+    <!-- Style Definitions -->
+    <style>
+        /* Set up the full-screen background image and base font */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background: url('mountain.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Styling for the quote display box */
+        .quote-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        /* Styling for the title of the quote box */
+        .quote-title {
+            font-family: 'Georgia', serif;
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        /* Common styling for quote and author text */
+        .quote,
+        .author {
+            font-size: 20px;
+            color: #333;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        /* Styling specifically for the author to make it italic */
+        .author {
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        /* Styling for the 'Next Quote' button */
+        .next-quote {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            border-radius: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Hover effect for the button to indicate interactivity */
+        .next-quote:hover {
+            background-color: #367B37;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Quote box container -->
+    <div class="quote-box">
+        <div class="quote-title">Quote of the Day</div>
+        <!-- Placeholder for the quote -->
+        <div id="quote" class="quote">Loading...</div>
+        <!-- Placeholder for the author -->
+        <div id="author" class="author"></div>
+        <!-- Button to fetch and display a new quote -->
+        <button onclick="loadQuote()" class="next-quote">Next Quote</button>
+    </div>
+
+    <!-- JavaScript to fetch and display quotes -->
+    <script>
+        // Function to load a new quote from the API
+        function loadQuote() {
+            fetch('https://api.quotable.io/random')
+                .then(response => response.json())
+                .then(data => {
+                    const quoteText = `"${data.content}"`;
+                    const authorText = `- ${data.author}`;
+                    // Animate the opacity for a smooth transition
+                    document.getElementById('quote').style.opacity = 0;
+                    document.getElementById('author').style.opacity = 0;
+                    setTimeout(function () {
+                        // Set new quote and author text
+                        document.getElementById('quote').innerText = quoteText;
+                        document.getElementById('author').innerText = authorText;
+                        // Fade in the new text
+                        document.getElementById('quote').style.opacity = 1;
+                        document.getElementById('author').style.opacity = 1;
+                    }, 300);
+                })
+                .catch(error => {
+                    // Error handling if the quote fails to load
+                    document.getElementById('quote').innerText = 'Failed to fetch quote.';
+                    document.getElementById('author').innerText = '';
+                });
+        }
+
+        // Load the initial quote when the page is first loaded
+        loadQuote();
+    </script>
+
+</body>
+
+</html>

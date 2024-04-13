@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Data Chart</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Clothing Sales Visualization</h2>
+        <!-- Input Form -->
+        <form id="dataForm">
+            <div class="form-group">
+                <label for="tshirts">T-shirts Sales</label>
+                <input type="number" class="form-control" id="tshirts" required>
+            </div>
+            <div class="form-group">
+                <label for="jeans">Jeans Sales</label>
+                <input type="number" class="form-control" id="jeans" required>
+            </div>
+            <div class="form-group">
+                <label for="jackets">Jackets Sales</label>
+                <input type="number" class="form-control" id="jackets" required>
+            </div>
+            <div class="form-group">
+                <label for="caps">Caps Sales</label>
+                <input type="number" class="form-control" id="caps" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Generate Chart</button>
+        </form>
+
+        <div class="mt-5" style="width: 350px; height: 350px; margin: auto;">
+            <canvas id="salesChart"></canvas>
+        </div>
+    </div>
+    <!-- Script for Chart.js and Form Handling -->
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Getting data from the form
+            var tshirts = parseInt(document.getElementById('tshirts').value);
+            var jeans = parseInt(document.getElementById('jeans').value);
+            var jackets = parseInt(document.getElementById('jackets').value);
+            var caps = parseInt(document.getElementById('caps').value);
+
+            // Calculate total sales
+            var totalSales = tshirts + jeans + jackets + caps;
+
+            // Check if total sales is not exactly 100%
+            if (totalSales !== 100) {
+                alert("Error: Total sales percentages must add up to exactly 100.");
+                return; // Stop further execution
+            }
+
+            // Creating the doughnut chart
+            var ctx = document.getElementById('salesChart').getContext('2d');
+            var salesChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['T-shirts', 'Jeans', 'Jackets', 'Caps'],
+                    datasets: [{
+                        label: 'Sales Data',
+                        data: [tshirts, jeans, jackets, caps],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Sales Distribution'
+                    },
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

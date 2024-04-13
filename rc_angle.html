@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC Circuit Phase Angle Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <!-- Custom CSS -->
+    <style>
+        /* Styling for the background and container */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+
+        .container {
+            max-width: 400px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="container">
+        <h2 class="text-center mb-4">RC Circuit Phase Angle Calculator</h2>
+
+        <div class="form-group">
+            <label for="resistance">Resistance (Ω):</label>
+            <input v-model.number="resistance" type="number" class="form-control" id="resistance" required>
+        </div>
+
+        <div class="form-group">
+            <label for="frequency">AC Signal Frequency (Hz):</label>
+            <input v-model.number="frequency" type="number" class="form-control" id="frequency" required>
+        </div>
+
+        <div class="form-group">
+            <label for="capacitance">Capacitance (F):</label>
+            <input v-model.number="capacitance" type="number" class="form-control" id="capacitance" required>
+        </div>
+
+        <div class="form-group text-center">
+            <button @click="calculatePhaseAngle" class="btn btn-primary">Calculate Phase Angle</button>
+            <button @click="resetForm" class="btn btn-secondary ml-2">Reset</button>
+        </div>
+
+        <!-- Display the result if available -->
+        <div v-if="result !== null" class="alert alert-success text-center">
+            <strong>Phase Angle:</strong> {{ result }} radians
+        </div>
+
+        <!-- Display an error message if there's an error -->
+        <div v-if="error !== null" class="alert alert-danger text-center">
+            {{ error }}
+        </div>
+    </div>
+
+    <!-- Vue.js code -->
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                resistance: null,
+                frequency: null,
+                capacitance: null,
+                result: null,
+                error: null
+            },
+            methods: {
+                // Calculate the phase angle when the button is clicked
+                calculatePhaseAngle() {
+                    if (this.isValidInput()) {
+                        // Calculate the phase angle using the formula for an RC circuit
+                        const omega = 2 * Math.PI * this.frequency;
+                        this.result = Math.atan(1 / (omega * this.capacitance * this.resistance)).toFixed(6); // Fix the result to 6 decimal places
+                        this.error = null; // Clear any previous error messages
+                    } else {
+                        // Display an error message if the input is invalid
+                        this.result = null; // Clear any previous result
+                        this.error = "Please enter valid values for resistance, frequency, and capacitance.";
+                    }
+                },
+                // Reset all input fields and messages
+                resetForm() {
+                    this.resistance = null;
+                    this.frequency = null;
+                    this.capacitance = null;
+                    this.result = null;
+                    this.error = null;
+                },
+                // Check if all input values are valid
+                isValidInput() {
+                    return this.resistance !== null && this.frequency !== null && this.capacitance !== null;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="complementApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Complement Calculator</title>
+    <!-- Angular.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- Bootstrap CSS and Styling-->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #3494e6, #ec6ead);
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" ng-controller="complementCtrl">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="text-center">Binary Complement Calculator</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="binaryInput">Enter Binary Number:</label>
+                                <input type="text" class="form-control" id="binaryInput" ng-model="binaryNumber"
+                                    placeholder="Enter binary number">
+                            </div>
+                            <button type="button" class="btn btn-success" ng-click="computeComplements()">Compute
+                                Complements</button>
+                        </form>
+
+                        <div ng-if="result">
+                            <h4 class="mt-4">Results:</h4>
+                            <p><strong>Original Binary:</strong> {{ binaryNumber }}</p>
+                            <p><strong>1's Complement:</strong> {{ onesComplement }}</p>
+                            <p><strong>2's Complement:</strong> {{ twosComplement }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Angular.js application -->
+    <script>
+        // Define the Angular.js module
+        var app = angular.module('complementApp', []);
+
+        // Define the controller for the module
+        app.controller('complementCtrl', function ($scope) {
+            // Function to compute 1's and 2's complement
+            $scope.computeComplements = function () {
+                if ($scope.binaryNumber && /^[01]+$/.test($scope.binaryNumber)) {
+                    $scope.onesComplement = $scope.binaryNumber.replace(/[01]/g, function (bit) {
+                        return bit === '0' ? '1' : '0';
+                    });
+
+                    $scope.twosComplement = (parseInt($scope.onesComplement, 2) + 1).toString(2);
+
+                    $scope.result = true;
+                } else {
+                    alert("Please enter a valid binary number (containing only 0s and 1s).");
+                }
+            };
+        });
+    </script>
+
+</body>
+
+</html>

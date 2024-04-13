@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Standard HTML metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title -->
+    <title>Fruit Sales Visualization</title>
+
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js library for creating charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Inline CSS for chart sizing -->
+    <style>
+        .chart-container {
+            width: 100%;
+            max-width: 500px; /* Maximum width of chart containers */
+            height: 400px; /* Height of chart containers */
+            margin: auto; /* Centering the chart containers */
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Page header -->
+    <div class="text-center text-xl font-bold my-4">
+        Fruit Sales Visualization
+    </div>
+
+    <!-- Dropdown menu for selecting the chart type -->
+    <div class="text-center mb-4">
+        <select id="chartSelector" class="p-2 border border-gray-300 rounded">
+            <option value="pie">Pie Chart</option>
+            <option value="bar">Bar Chart</option>
+            <option value="doughnut">Doughnut Chart</option>
+        </select>
+    </div>
+
+    <!-- Chart containers for each type of chart -->
+    <div class="flex flex-wrap justify-around items-center">
+        <!-- Pie Chart Container -->
+        <div id="pieChartContainer" class="chart-container">
+            <canvas id="pieChart"></canvas>
+        </div>
+
+        <!-- Bar Chart Container -->
+        <div id="barChartContainer" class="chart-container hidden">
+            <canvas id="barChart"></canvas>
+        </div>
+
+        <!-- Doughnut Chart Container -->
+        <div id="doughnutChartContainer" class="chart-container hidden">
+            <canvas id="doughnutChart"></canvas>
+        </div>
+    </div>
+
+    <!-- JavaScript for Chart.js functionality -->
+    <script>
+        // Data for the charts
+        const fruitData = {
+            labels: ['Apple', 'Orange', 'Lychee', 'Mango'],
+            datasets: [{
+                label: 'Fruit Sales Percentage',
+                data: [20, 30, 35, 15],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(255, 159, 64, 0.5)',
+                    'rgba(255, 205, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        // Common options for all charts
+        const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        };
+
+        // Creating the Pie Chart
+        const pieChart = new Chart(document.getElementById('pieChart'), {
+            type: 'pie',
+            data: fruitData,
+            options: options
+        });
+
+        // Creating the Bar Chart
+        const barChart = new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: fruitData,
+            options: options
+        });
+
+        // Creating the Doughnut Chart
+        const doughnutChart = new Chart(document.getElementById('doughnutChart'), {
+            type: 'doughnut',
+            data: fruitData,
+            options: options
+        });
+
+        // Function to handle the chart selection from the dropdown menu
+        document.getElementById('chartSelector').addEventListener('change', function() {
+            const selectedChart = this.value;
+            // Show the selected chart and hide the others
+            document.getElementById('pieChartContainer').style.display = selectedChart === 'pie' ? 'block' : 'none';
+            document.getElementById('barChartContainer').style.display = selectedChart === 'bar' ? 'block' : 'none';
+            document.getElementById('doughnutChartContainer').style.display = selectedChart === 'doughnut' ? 'block' : 'none';
+        });
+    </script>
+    
+</body>
+</html>

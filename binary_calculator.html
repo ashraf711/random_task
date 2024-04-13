@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-4">Binary Number Calculator</h2>
+        <div class="form-group">
+            <label for="binary1">First Binary Number</label>
+            <input type="text" class="form-control" id="binary1" placeholder="Enter first binary number">
+        </div>
+        <div class="form-group">
+            <label for="binary2">Second Binary Number</label>
+            <input type="text" class="form-control" id="binary2" placeholder="Enter second binary number">
+        </div>
+        <button onclick="performOperation('multiply')" class="btn btn-primary">Multiply</button>
+        <button onclick="performOperation('divide')" class="btn btn-secondary">Divide</button>
+        <h3 class="mt-3">Result: <span id="result"></span></h3>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function performOperation(operation) {
+            let binary1 = document.getElementById('binary1').value;
+            let binary2 = document.getElementById('binary2').value;
+
+            // Check if input is binary
+            if (!isBinary(binary1) || !isBinary(binary2)) {
+                alert("Please enter valid binary numbers.");
+                return;
+            }
+
+            let result;
+            switch(operation) {
+                case 'multiply':
+                    result = multiplyBinaries(binary1, binary2);
+                    break;
+                case 'divide':
+                    result = divideBinaries(binary1, binary2);
+                    break;
+            }
+
+            document.getElementById('result').innerText = result;
+        }
+
+        function isBinary(str) {
+            return /^[01]+$/.test(str);
+        }
+
+        function multiplyBinaries(b1, b2) {
+            let num1 = parseInt(b1, 2);
+            let num2 = parseInt(b2, 2);
+            let product = num1 * num2;
+            return product.toString(2);
+        }
+
+        function divideBinaries(b1, b2) {
+            let num1 = parseInt(b1, 2);
+            let num2 = parseInt(b2, 2);
+            if (num2 === 0) {
+                return "Cannot divide by zero";
+            }
+            let quotient = Math.floor(num1 / num2);
+            return quotient.toString(2);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexadecimal Calculator</title>
+    <!-- Include Bulma CSS framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.10.2/css/bulma.min.css">
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Hexadecimal Calculator</h1>
+            <div class="columns">
+                <div class="column is-4">
+                    <!-- Input field for the first hexadecimal number -->
+                    <div class="field">
+                        <label class="label">Number 1 (Hexadecimal)</label>
+                        <div class="control">
+                            <input class="input" id="number1" type="text" placeholder="Enter Hexadecimal Number">
+                        </div>
+                    </div>
+                    <!-- Input field for the second hexadecimal number -->
+                    <div class="field">
+                        <label class="label">Number 2 (Hexadecimal)</label>
+                        <div class="control">
+                            <input class="input" id="number2" type="text" placeholder="Enter Hexadecimal Number">
+                        </div>
+                    </div>
+                    <!-- Dropdown select for the operation (add, subtract, multiply, divide) -->
+                    <div class="field">
+                        <label class="label">Operation</label>
+                        <div class="control">
+                            <div class="select">
+                                <select id="operation">
+                                    <option value="add">Addition (+)</option>
+                                    <option value="subtract">Subtraction (-)</option>
+                                    <option value="multiply">Multiplication (*)</option>
+                                    <option value="divide">Division (/)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Button to trigger the calculation -->
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" onclick="calculate()">Calculate</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <!-- Display field for the result in hexadecimal format -->
+                    <div class="field">
+                        <label class="label">Result (Hexadecimal)</label>
+                        <div class="control">
+                            <input class="input" id="result" type="text" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Function to perform hexadecimal calculations
+        function calculate() {
+            const num1 = document.getElementById('number1').value;
+            const num2 = document.getElementById('number2').value;
+            const operation = document.getElementById('operation').value;
+
+            // Parse hexadecimal strings to integers
+            const intNum1 = parseInt(num1, 16);
+            const intNum2 = parseInt(num2, 16);
+
+            // Perform the selected operation
+            let result;
+            switch (operation) {
+                case 'add':
+                    result = intNum1 + intNum2;
+                    break;
+                case 'subtract':
+                    result = intNum1 - intNum2;
+                    break;
+                case 'multiply':
+                    result = intNum1 * intNum2;
+                    break;
+                case 'divide':
+                    if (intNum2 === 0) {
+                        alert('Cannot divide by zero.');
+                        return;
+                    }
+                    result = intNum1 / intNum2;
+                    break;
+                default:
+                    alert('Invalid operation.');
+                    return;
+            }
+
+            // Display the result in hexadecimal format
+            document.getElementById('result').value = result.toString(16).toUpperCase();
+        }
+    </script>
+</body>
+
+</html>

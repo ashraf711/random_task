@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Metadata for responsiveness and character set -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electric Field Calculator</title>
+    <style>
+        /* Styling for the entire page, including the gradient background */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(90deg, hsla(160, 50%, 51%, 1) 0%, hsla(247, 60%, 21%, 1) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Styling for the calculator container */
+        .container {
+            background: #ACC8E5;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        /* Styling for the heading */
+        h1 {
+            text-align: center;
+            color: #112A46;
+        }
+
+        /* Styling for form groups (label + input) */
+        .form-group {
+            margin-bottom: 20px;
+            color: #112A46;
+        }
+
+        .form-group input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #112A46;
+            border-radius: 4px;
+        }
+
+        /* Styling for the calculation button */
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #112A46;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #231146;
+        }
+
+        /* Styling for the result display area */
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            color: #112A46;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Heading for the calculator -->
+        <h1>Electric Field Calculator</h1>
+        <!-- Input for charge -->
+        <div class="form-group">
+            <label for="charge">Charge (Coulombs):</label>
+            <input type="number" id="charge" placeholder="Please enter the charge" step="any">
+        </div>
+        <!-- Input for distance -->
+        <div class="form-group">
+            <label for="distance">Distance (Meters):</label>
+            <input type="number" id="distance" placeholder="Please enter the distance" step="any" min="0">
+        </div>
+        <!-- Button to trigger calculation -->
+        <button onclick="calculateElectricField()">Calculate</button>
+        <!-- Element to display the result -->
+        <div id="result"></div>
+    </div>
+    <script>
+        // Function to calculate electric field strength
+        function calculateElectricField() {
+            const k = 8.9875517873681764 * Math.pow(10, 9); // Coulomb's constant
+            const chargeInput = document.getElementById('charge');
+            const distanceInput = document.getElementById('distance');
+            const resultDisplay = document.getElementById('result');
+
+            const charge = parseFloat(chargeInput.value);
+            const distance = parseFloat(distanceInput.value);
+
+            // Validation checks for inputs
+            if (isNaN(charge) || isNaN(distance)) {
+                resultDisplay.innerText = 'Please enter valid numeric values.';
+                return;
+            }
+
+            if (distance <= 0) {
+                resultDisplay.innerText = 'Distance must be greater than 0.';
+                return;
+            }
+
+            // Calculation of electric field strength
+            const electricFieldStrength = k * charge / (distance * distance);
+            resultDisplay.innerText = `Electric Field Strength: ${electricFieldStrength.toFixed(2)} N/C`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RC Circuit Phase Angle Calculator</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional body Styling */
+        body {
+            background: linear-gradient(to right, #151E3D, #63C5DA);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Additional styling for the container */
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+        }
+    </style>
+</head>
+
+<body class="font-sans">
+
+    <div class="container">
+        <h1 class="text-2xl font-semibold mb-4 text-center">RC Circuit Phase Angle Calculator</h1>
+
+        <!-- Form for user input -->
+        <form id="calculator-form">
+            <div class="mb-4">
+                <label for="resistance" class="block text-gray-700">Resistance (R) in Ohms:</label>
+                <input type="number" id="resistance" name="resistance" class="rounded-lg p-2 border w-full" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="frequency" class="block text-gray-700">Frequency (f) in Hz:</label>
+                <input type="number" id="frequency" name="frequency" class="rounded-lg p-2 border w-full" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="capacitance" class="block text-gray-700">Capacitance (C) in Farads:</label>
+                <input type="number" id="capacitance" name="capacitance" class="rounded-lg p-2 border w-full" required>
+            </div>
+
+            <!-- Display the result -->
+            <div class="mb-4">
+                <p class="text-xl font-semibold">Phase Angle: <span id="result">0</span> radians</p>
+            </div>
+
+            <!-- Error message container -->
+            <div id="error-message" class="text-red-500 mb-4"></div>
+
+            <!-- Calculate and Reset buttons -->
+            <div class="mb-4 text-center">
+                <button type="button" id="calculate"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-lg mr-4">Calculate</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- JavaScript for calculations and error handling -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to calculate the phase angle
+            function calculatePhaseAngle() {
+                const resistance = parseFloat(document.getElementById("resistance").value);
+                const frequency = parseFloat(document.getElementById("frequency").value);
+                const capacitance = parseFloat(document.getElementById("capacitance").value);
+
+                if (isNaN(resistance) || isNaN(frequency) || isNaN(capacitance)) {
+                    document.getElementById("error-message").textContent = "Please enter valid numeric values.";
+                    return;
+                }
+
+                // Calculate phase angle
+                const phaseAngle = Math.atan(1 / (2 * Math.PI * frequency * capacitance * resistance));
+
+                document.getElementById("result").textContent = phaseAngle.toFixed(6);
+                document.getElementById("error-message").textContent = "";
+            }
+
+            // Calculate button click event
+            document.getElementById("calculate").addEventListener("click", calculatePhaseAngle);
+        });
+    </script>
+</body>
+
+</html>

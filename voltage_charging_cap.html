@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capacitor Charging Graph</title>
+    <!-- Linking Tailwind CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Including Chart.js for graph plotting -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-100 p-8">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Capacitor Charging Graph</h1>
+
+        <!-- Input for Initial Voltage -->
+        <div class="mb-4">
+            <label for="voltage" class="block text-black text-sm font-bold mb-2">Initial Voltage
+                (V<sub>0</sub>)</label>
+            <input type="number" id="voltage"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <!-- Input for Resistance -->
+        <div class="mb-4">
+            <label for="resistance" class="block text-black text-sm font-bold mb-2">Resistance (R) in Ohms</label>
+            <input type="number" id="resistance"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <!-- Input for Capacitance -->
+        <div class="mb-6">
+            <label for="capacitance" class="block text-black text-sm font-bold mb-2">Capacitance (C) in
+                Farads</label>
+            <input type="number" id="capacitance"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+
+        <!-- Button to plot the graph -->
+        <button id="plotButton"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Plot
+            Graph</button>
+
+        <!-- Canvas for displaying the graph -->
+        <div class="mt-8" style="width: 600px; height: 400px;">
+            <canvas id="capacitorGraph"></canvas>
+        </div>
+    </div>
+
+    <script>
+        let chartInstance = null; // Variable to hold the chart instance
+
+        document.getElementById('plotButton').addEventListener('click', function () {
+            const V0 = parseFloat(document.getElementById('voltage').value);
+            const R = parseFloat(document.getElementById('resistance').value);
+            const C = parseFloat(document.getElementById('capacitance').value);
+
+            const data = {
+                labels: [],
+                datasets: [{
+                    label: 'Capacitor Voltage (V)',
+                    backgroundColor: 'rgb(59, 89, 152)', // Denim blue
+                    borderColor: 'rgb(59, 89, 152)',
+
+
+
+                    data: []
+                }]
+            };
+
+            for (let t = 0; t <= 5 * R * C; t += R * C / 50) {
+                const Vt = V0 * (1 - Math.exp(-t / (R * C)));
+                data.labels.push(t.toFixed(2));
+                data.datasets[0].data.push(Vt);
+            }
+
+            const ctx = document.getElementById('capacitorGraph').getContext('2d');
+
+            // If a chart instance already exists, destroy it before creating a new one
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            // Create a new chart instance and assign it to the variable
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {}
+            });
+        });
+
+    </script>
+</body>
+
+</html>

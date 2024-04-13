@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Page Title -->
+    <title>Hexadecimal Calculator</title>
+    
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Inline CSS for additional styling -->
+    <style>
+        .calculator {
+            margin: 0 auto; /* Centers the calculator */
+            padding: 20px; /* Padding around the calculator */
+            border-radius: 10px; /* Rounded corners */
+            background-color: #f7f7f7; /* Light grey background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for 3D effect */
+            max-width: 400px; /* Maximum width of the calculator */
+        }
+        .form-control {
+            margin-bottom: 10px; /* Margin at the bottom of each input */
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <!-- Calculator Title -->
+        <h2>Hexadecimal Calculator</h2>
+
+        <!-- Input fields for hexadecimal numbers -->
+        <input type="text" id="firstNumber" class="form-control" placeholder="Enter first hexadecimal number">
+        <input type="text" id="secondNumber" class="form-control" placeholder="Enter second hexadecimal number">
+
+        <!-- Operation buttons with onclick events to call the calculate function -->
+        <button onclick="calculate('add')" class="btn btn-primary btn-block">Add</button>
+        <button onclick="calculate('subtract')" class="btn btn-secondary btn-block">Subtract</button>
+        <button onclick="calculate('multiply')" class="btn btn-success btn-block">Multiply</button>
+        <button onclick="calculate('divide')" class="btn btn-danger btn-block">Divide</button>
+        
+        <!-- Divider -->
+        <hr>
+        
+        <!-- Display area for the calculation result -->
+        <h3>Result: <span id="result"></span></h3>
+    </div>
+
+    <!-- JavaScript for calculator logic -->
+    <script>
+        function calculate(operation) {
+            // Retrieve input values
+            var firstNum = document.getElementById('firstNumber').value;
+            var secondNum = document.getElementById('secondNumber').value;
+            var result;
+
+            // Perform calculation based on the operation
+            switch(operation) {
+                case 'add':
+                    result = (parseInt(firstNum, 16) + parseInt(secondNum, 16)).toString(16);
+                    break;
+                case 'subtract':
+                    result = (parseInt(firstNum, 16) - parseInt(secondNum, 16)).toString(16);
+                    break;
+                case 'multiply':
+                    result = (parseInt(firstNum, 16) * parseInt(secondNum, 16)).toString(16);
+                    break;
+                case 'divide':
+                    result = (parseInt(firstNum, 16) / parseInt(secondNum, 16)).toString(16);
+                    break;
+                default:
+                    result = 'Invalid operation';
+            }
+
+            // Display the result
+            document.getElementById('result').innerHTML = result.toUpperCase();
+        }
+    </script>
+    
+</body>
+</html>
